@@ -1,0 +1,26 @@
+{
+  "name": "backend-sensor",
+  "version": "1.0.0",
+  "description": "Sensor Data Collection API with API Key Authentication",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^5.13.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.0",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "express-validator": "^7.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "nodemon": "^3.1.14"
+  },
+  "devDependencies": {
+    "prisma": "^5.13.0"
+  }
+}
