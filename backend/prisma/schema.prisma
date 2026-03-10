@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            Int       @id @default(autoincrement())
+  name          String?   @db.VarChar(255)
+  email         String    @unique(map: "email") @db.VarChar(255)
+  password      String?   @db.VarChar(255)
+  isAdmin       Boolean   @default(false)
+  isActive      Boolean   @default(true)
+  deactivatedAt DateTime?
+  createdAt     DateTime
+  updatedAt     DateTime
+
+  @@map("users")
+}
+
+model Device {
+  id            Int       @id @default(autoincrement())
+  name          String    @db.VarChar(255)
+  description   String?   @db.Text
+  apiKey        String    @unique @db.VarChar(64)
+  isActive      Boolean   @default(true)
+  deactivatedAt DateTime?
+  createdAt     DateTime
+  updatedAt     DateTime
+
+  sensorData SensorData[]
+
+  @@map("devices")
+}
+
+model SensorData {
+  id        Int      @id @default(autoincrement())
+  deviceId  Int
+  payload   Json
+  createdAt DateTime
+
+  device Device @relation(fields: [deviceId], references: [id])
+
+  @@index([deviceId])
+  @@index([createdAt])
+  @@map("sensor_data")
+}
