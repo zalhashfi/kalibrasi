@@ -350,6 +350,40 @@ const reactivateDevice = async (req, res) => {
     }
 };
 
+//function getPublicDevices - get active devices (public, no sensitive data)
+const getPublicDevices = async (req, res) => {
+    try {
+
+        //get all active devices (only public info, no API key)
+        const devices = await prisma.device.findMany({
+            where: {
+                isActive: true,
+            },
+            select: {
+                id: true,
+                name: true,
+                description: true,
+            },
+            orderBy: {
+                id: 'asc',
+            },
+        });
+
+        //send response
+        res.status(200).send({
+            success: true,
+            message: 'Get public device list successfully',
+            data: devices,
+        });
+
+    } catch (error) {
+        res.status(500).send({
+            success: false,
+            message: 'Internal server error',
+        });
+    }
+};
+
 module.exports = {
     findDevices,
     createDevice,
@@ -358,4 +392,5 @@ module.exports = {
     regenerateApiKey,
     deleteDevice,
     reactivateDevice,
+    getPublicDevices,
 };

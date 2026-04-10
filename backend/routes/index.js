@@ -91,6 +91,13 @@ router.put('/admin/devices/:id/reactivate', verifyToken, verifyAdmin, deviceCont
 router.post('/sensor-data', verifyApiKey, validateSensorData, sensorDataController.storeSensorData);
 
 // ==========================================
+// PUBLIC DEVICE LIST (for homepage device selector)
+// ==========================================
+
+//define route for get public device list (no sensitive data)
+router.get('/devices', deviceController.getPublicDevices);
+
+// ==========================================
 // SENSOR DATA RETRIEVAL ROUTES (public)
 // ==========================================
 
