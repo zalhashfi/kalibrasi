@@ -3,7 +3,7 @@ export default function Modal({ isOpen, onClose, title, children, footer }) {
 
   return (
     <div
-      className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[1000] p-4 animate-[fadeIn_0.2s_ease-out]"
+      className="fixed inset-0 bg-overlay backdrop-blur-sm flex items-center justify-center z-[1000] p-4 animate-[fadeIn_0.2s_ease-out]"
       onClick={onClose}
     >
       <div
@@ -11,11 +11,11 @@ export default function Modal({ isOpen, onClose, title, children, footer }) {
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-white/5">
-          <h2 className="text-lg font-bold text-slate-100">{title}</h2>
+        <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-border-default">
+          <h2 className="text-lg font-bold text-text-primary">{title}</h2>
           <button
             onClick={onClose}
-            className="w-8 h-8 flex items-center justify-center text-slate-500 hover:text-slate-100 hover:bg-slate-800 rounded-md transition-all duration-150 text-xl"
+            className="w-8 h-8 flex items-center justify-center text-text-muted hover:text-text-primary hover:bg-surface-elevated rounded-md transition-all duration-150 text-xl"
           >
             ✕
           </button>
@@ -28,7 +28,7 @@ export default function Modal({ isOpen, onClose, title, children, footer }) {
 
         {/* Footer */}
         {footer && (
-          <div className="flex items-center justify-end gap-3 px-6 pb-6 pt-4 border-t border-white/5">
+          <div className="flex items-center justify-end gap-3 px-6 pb-6 pt-4 border-t border-border-default">
             {footer}
           </div>
         )}

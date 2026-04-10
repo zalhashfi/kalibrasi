@@ -100,23 +100,23 @@ export default function DeviceManagementPanel() {
 
   const formatDate = (dateStr) => new Date(dateStr).toLocaleString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 
-  const inputClass = 'w-full px-4 py-3 bg-surface-input border border-border-default rounded-lg text-slate-100 text-sm outline-none transition-all duration-150 placeholder:text-slate-600 focus:border-blue-500 focus:ring-3 focus:ring-blue-500/15';
+  const inputClass = 'w-full px-4 py-3 bg-surface-input border border-border-default rounded-lg text-text-primary text-sm outline-none transition-all duration-200 placeholder:text-text-placeholder focus:border-blue-500 focus:ring-3 focus:ring-blue-500/15';
 
   const renderDeviceForm = (onSubmit, submitLabel) => (
     <form onSubmit={onSubmit}>
       <div className="mb-4">
-        <label className="block text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wide" htmlFor="device-name">Device Name</label>
+        <label className="block text-xs font-semibold text-text-secondary mb-2 uppercase tracking-wide" htmlFor="device-name">Device Name</label>
         <input id="device-name" type="text" className={inputClass} placeholder="e.g. Sensor Lab Kimia" value={formName} onChange={(e) => setFormName(e.target.value)} required />
       </div>
       <div className="mb-5">
-        <label className="block text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wide" htmlFor="device-desc">Description (Optional)</label>
+        <label className="block text-xs font-semibold text-text-secondary mb-2 uppercase tracking-wide" htmlFor="device-desc">Description (Optional)</label>
         <textarea id="device-desc" className={`${inputClass} resize-y min-h-[80px]`} placeholder="Describe this device..." value={formDescription} onChange={(e) => setFormDescription(e.target.value)} />
       </div>
       <div className="flex justify-end gap-3">
-        <button type="button" className="px-5 py-2.5 bg-surface-elevated border border-border-default rounded-lg text-sm font-semibold text-slate-100 hover:bg-surface-card-hover transition-all duration-150" onClick={() => { setShowCreateModal(false); setShowEditModal(false); clearForm(); }}>
+        <button type="button" className="px-5 py-2.5 bg-surface-elevated border border-border-default rounded-lg text-sm font-semibold text-text-primary hover:bg-surface-card-hover transition-all duration-200" onClick={() => { setShowCreateModal(false); setShowEditModal(false); clearForm(); }}>
           Cancel
         </button>
-        <button type="submit" className="px-5 py-2.5 bg-gradient-to-r from-blue-600 to-blue-500 rounded-lg text-sm font-semibold text-white hover:from-blue-500 hover:to-blue-400 hover:shadow-[0_0_20px_rgba(51,120,255,0.3)] transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center gap-2" disabled={formLoading}>
+        <button type="submit" className="px-5 py-2.5 bg-gradient-to-r from-blue-600 to-blue-500 rounded-lg text-sm font-semibold text-white hover:from-blue-500 hover:to-blue-400 hover:shadow-[0_0_20px_rgba(51,120,255,0.3)] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center gap-2" disabled={formLoading}>
           {formLoading ? <><div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" /> Processing...</> : submitLabel}
         </button>
       </div>
@@ -129,72 +129,72 @@ export default function DeviceManagementPanel() {
       <div className="mb-8">
         <div className="flex items-center justify-between flex-wrap gap-4">
           <div>
-            <h1 className="text-[1.75rem] font-extrabold bg-gradient-to-r from-slate-100 to-blue-300 bg-clip-text text-transparent">📱 Device Management</h1>
-            <p className="text-slate-400 mt-1 text-sm">Manage sensor devices and API keys</p>
+            <h1 className="text-[1.75rem] font-extrabold bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">📱 Device Management</h1>
+            <p className="text-text-muted mt-1 text-sm">Manage sensor devices and API keys</p>
           </div>
-          <button onClick={() => { clearForm(); setShowCreateModal(true); }} id="create-device-btn" className="px-5 py-2.5 bg-gradient-to-r from-blue-600 to-blue-500 rounded-lg text-sm font-semibold text-white hover:from-blue-500 hover:to-blue-400 hover:shadow-[0_0_20px_rgba(51,120,255,0.3)] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-150">
+          <button onClick={() => { clearForm(); setShowCreateModal(true); }} id="create-device-btn" className="px-5 py-2.5 bg-gradient-to-r from-blue-600 to-blue-500 rounded-lg text-sm font-semibold text-white hover:from-blue-500 hover:to-blue-400 hover:shadow-[0_0_20px_rgba(51,120,255,0.3)] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200">
             + Add Device
           </button>
         </div>
       </div>
 
       {/* Alerts */}
-      {success && <div className="px-4 py-3 rounded-lg text-sm font-medium flex items-center gap-2.5 mb-4 animate-slide-down bg-green-500/8 text-green-400 border border-green-500/20">✅ {success}</div>}
-      {error && <div className="px-4 py-3 rounded-lg text-sm font-medium flex items-center gap-2.5 mb-4 animate-slide-down bg-red-500/8 text-red-400 border border-red-500/20">⚠️ {error}</div>}
+      {success && <div className="px-4 py-3 rounded-lg text-sm font-medium flex items-center gap-2.5 mb-4 animate-slide-down bg-badge-green-bg text-badge-green-text border border-badge-green-border">✅ {success}</div>}
+      {error && <div className="px-4 py-3 rounded-lg text-sm font-medium flex items-center gap-2.5 mb-4 animate-slide-down bg-badge-red-bg text-badge-red-text border border-badge-red-border">⚠️ {error}</div>}
 
       {/* Content */}
       {loading ? (
-        <div className="flex items-center justify-center py-12 text-slate-500 text-sm gap-3">
-          <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" /> Loading devices...
+        <div className="flex items-center justify-center py-12 text-text-muted text-sm gap-3">
+          <div className="w-5 h-5 border-2 border-border-default border-t-blue-500 rounded-full animate-spin" /> Loading devices...
         </div>
       ) : devices.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-12 text-center">
           <div className="text-5xl mb-4 opacity-30">📡</div>
-          <div className="text-lg font-semibold text-slate-400 mb-2">No Devices Found</div>
-          <div className="text-slate-500 text-sm">Register a new sensor device to get started.</div>
+          <div className="text-lg font-semibold text-text-secondary mb-2">No Devices Found</div>
+          <div className="text-text-muted text-sm">Register a new sensor device to get started.</div>
         </div>
       ) : (
-        <div className="overflow-x-auto rounded-xl border border-white/5">
+        <div className="overflow-x-auto rounded-xl border border-border-default">
           <table className="w-full border-collapse text-sm" id="devices-table">
             <thead className="bg-surface-elevated">
               <tr>
                 {['ID', 'Name', 'Description', 'API Key', 'Status', 'Created', 'Actions'].map((h) => (
-                  <th key={h} className="px-4 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-400 border-b border-border-default whitespace-nowrap">{h}</th>
+                  <th key={h} className="px-4 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-text-muted border-b border-border-default whitespace-nowrap">{h}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
               {devices.map((device) => (
-                <tr key={device.id} className="transition-colors duration-150 hover:bg-blue-500/[0.04] border-b border-white/5 last:border-b-0">
+                <tr key={device.id} className="transition-colors duration-150 hover:bg-badge-blue-bg border-b border-border-subtle last:border-b-0">
                   <td className="px-4 py-3.5">
-                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20">#{device.id}</span>
+                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-badge-blue-bg text-badge-blue-text border border-badge-blue-border">#{device.id}</span>
                   </td>
-                  <td className="px-4 py-3.5 font-semibold text-slate-100">{device.name}</td>
-                  <td className="px-4 py-3.5 text-sm text-slate-500">{device.description || '-'}</td>
+                  <td className="px-4 py-3.5 font-semibold text-text-primary">{device.name}</td>
+                  <td className="px-4 py-3.5 text-sm text-text-muted">{device.description || '-'}</td>
                   <td className="px-4 py-3.5">
-                    <div className="flex items-center gap-1.5 bg-surface-input border border-white/5 rounded-lg px-3 py-2 font-mono text-xs text-cyan-300 max-w-[220px]">
+                    <div className="flex items-center gap-1.5 bg-surface-input border border-border-default rounded-lg px-3 py-2 font-mono text-xs text-accent-cyan max-w-[220px]">
                       <span className="flex-1 truncate">
                         {visibleKeys[device.id] ? device.apiKey : '••••••••••••••••'}
                       </span>
-                      <button onClick={() => toggleKeyVisibility(device.id)} title={visibleKeys[device.id] ? 'Hide' : 'Show'} className="text-slate-500 hover:text-blue-400 hover:bg-slate-800 p-1 rounded transition-all duration-150">
+                      <button onClick={() => toggleKeyVisibility(device.id)} title={visibleKeys[device.id] ? 'Hide' : 'Show'} className="text-text-muted hover:text-badge-blue-text hover:bg-surface-elevated p-1 rounded transition-all duration-150">
                         {visibleKeys[device.id] ? '🙈' : '👁'}
                       </button>
-                      <button onClick={() => copyToClipboard(device.apiKey)} title="Copy" className="text-slate-500 hover:text-blue-400 hover:bg-slate-800 p-1 rounded transition-all duration-150">
+                      <button onClick={() => copyToClipboard(device.apiKey)} title="Copy" className="text-text-muted hover:text-badge-blue-text hover:bg-surface-elevated p-1 rounded transition-all duration-150">
                         📋
                       </button>
                     </div>
                   </td>
                   <td className="px-4 py-3.5">
                     {device.isActive
-                      ? <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-green-500/10 text-green-400 border border-green-500/20">Active</span>
-                      : <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-red-500/10 text-red-400 border border-red-500/20">Inactive</span>
+                      ? <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-badge-green-bg text-badge-green-text border border-badge-green-border">Active</span>
+                      : <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-badge-red-bg text-badge-red-text border border-badge-red-border">Inactive</span>
                     }
                   </td>
-                  <td className="px-4 py-3.5 text-xs text-slate-500">{formatDate(device.createdAt)}</td>
+                  <td className="px-4 py-3.5 text-xs text-text-muted">{formatDate(device.createdAt)}</td>
                   <td className="px-4 py-3.5">
                     <div className="flex flex-col gap-1.5">
                       <div className="flex gap-1.5">
-                        <button onClick={() => openEditModal(device)} className="px-3 py-1.5 bg-surface-elevated border border-border-default rounded-lg text-xs font-semibold text-slate-100 hover:bg-surface-card-hover transition-all duration-150">
+                        <button onClick={() => openEditModal(device)} className="px-3 py-1.5 bg-surface-elevated border border-border-default rounded-lg text-xs font-semibold text-text-primary hover:bg-surface-card-hover transition-all duration-150">
                           ✏️ Edit
                         </button>
                         <button onClick={() => handleRegenerateKey(device.id)} className="px-3 py-1.5 bg-gradient-to-r from-amber-600 to-amber-500 rounded-lg text-xs font-semibold text-white hover:shadow-[0_0_20px_rgba(245,158,11,0.3)] transition-all duration-150">
