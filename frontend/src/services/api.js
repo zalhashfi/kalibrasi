@@ -1,4 +1,4 @@
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
+const API_BASE = (import.meta.env.VITE_API_URL || 'http://localhost:3001/api').replace(/\/$/, '');
 
 const getHeaders = (token) => {
   const headers = { 'Content-Type': 'application/json' };
@@ -15,7 +15,7 @@ const handleResponse = async (response) => {
 };
 
 // ==========================================
-// AUTH
+// AUTH (admin login only)
 // ==========================================
 
 export const authApi = {
@@ -27,68 +27,15 @@ export const authApi = {
     });
     return handleResponse(res);
   },
-
-  register: async (name, email, password) => {
-    const res = await fetch(`${API_BASE}/register`, {
-      method: 'POST',
-      headers: getHeaders(),
-      body: JSON.stringify({ name, email, password }),
-    });
-    return handleResponse(res);
-  },
 };
 
 // ==========================================
-// USERS (Admin)
+// PUBLIC DEVICES (no auth required)
 // ==========================================
 
-export const usersApi = {
-  getAll: async (token) => {
-    const res = await fetch(`${API_BASE}/admin/users`, {
-      headers: getHeaders(token),
-    });
-    return handleResponse(res);
-  },
-
-  getById: async (token, id) => {
-    const res = await fetch(`${API_BASE}/admin/users/${id}`, {
-      headers: getHeaders(token),
-    });
-    return handleResponse(res);
-  },
-
-  create: async (token, userData) => {
-    const res = await fetch(`${API_BASE}/admin/users`, {
-      method: 'POST',
-      headers: getHeaders(token),
-      body: JSON.stringify(userData),
-    });
-    return handleResponse(res);
-  },
-
-  update: async (token, id, userData) => {
-    const res = await fetch(`${API_BASE}/admin/users/${id}`, {
-      method: 'PUT',
-      headers: getHeaders(token),
-      body: JSON.stringify(userData),
-    });
-    return handleResponse(res);
-  },
-
-  deactivate: async (token, id) => {
-    const res = await fetch(`${API_BASE}/admin/users/${id}`, {
-      method: 'DELETE',
-      headers: getHeaders(token),
-    });
-    return handleResponse(res);
-  },
-
-  reactivate: async (token, id) => {
-    const res = await fetch(`${API_BASE}/admin/users/${id}/reactivate`, {
-      method: 'PUT',
-      headers: getHeaders(token),
-      body: JSON.stringify({}),
-    });
+export const publicDevicesApi = {
+  getAll: async () => {
+    const res = await fetch(`${API_BASE}/devices`);
     return handleResponse(res);
   },
 };

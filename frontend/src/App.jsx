@@ -1,10 +1,12 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
-import AuthPage from './pages/AuthPage';
-import DashboardPage from './pages/DashboardPage';
+import { ThemeProvider } from './context/ThemeContext';
+import HomePage from './pages/HomePage';
+import AdminLoginPage from './pages/AdminLoginPage';
+import AdminDashboardPage from './pages/AdminDashboardPage';
 
-function ProtectedRoute({ children }) {
-  const { isAuthenticated, loading } = useAuth();
+function AdminRoute({ children }) {
+  const { isAuthenticated, isAdmin, loading } = useAuth();
 
   if (loading) {
     return (
@@ -17,11 +19,15 @@ function ProtectedRoute({ children }) {
     );
   }
 
-  return isAuthenticated ? children : <Navigate to="/" replace />;
+  if (!isAuthenticated || !isAdmin) {
+    return <Navigate to="/admin/login" replace />;
+  }
+
+  return children;
 }
 
-function PublicRoute({ children }) {
-  const { isAuthenticated, loading } = useAuth();
+function AdminLoginRoute({ children }) {
+  const { isAuthenticated, isAdmin, loading } = useAuth();
 
   if (loading) {
     return (
@@ -34,28 +40,41 @@ function PublicRoute({ children }) {
     );
   }
 
-  return isAuthenticated ? <Navigate to="/dashboard" replace /> : children;
+  // Already logged in as admin, redirect to dashboard
+  if (isAuthenticated && isAdmin) {
+    return <Navigate to="/admin/dashboard" replace />;
+  }
+
+  return children;
 }
 
 function AppRoutes() {
   return (
     <Routes>
+      {/* Public Route - Homepage with sensor data */}
+      <Route path="/" element={<HomePage />} />
+
+      {/* Admin Login */}
       <Route
-        path="/"
+        path="/admin/login"
         element={
-          <PublicRoute>
-            <AuthPage />
-          </PublicRoute>
+          <AdminLoginRoute>
+            <AdminLoginPage />
+          </AdminLoginRoute>
         }
       />
+
+      {/* Admin Dashboard (protected) */}
       <Route
-        path="/dashboard"
+        path="/admin/dashboard"
         element={
-          <ProtectedRoute>
-            <DashboardPage />
-          </ProtectedRoute>
+          <AdminRoute>
+            <AdminDashboardPage />
+          </AdminRoute>
         }
       />
+
+      {/* Catch-all redirect to homepage */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
@@ -63,8 +82,10 @@ function AppRoutes() {
 
 export default function App() {
   return (
-    <AuthProvider>
-      <AppRoutes />
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <AppRoutes />
+      </AuthProvider>
+    </ThemeProvider>
   );
 }

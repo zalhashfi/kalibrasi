@@ -11,27 +11,25 @@ export default function SensorDataPanel() {
   const [error, setError] = useState('');
   const [deviceInfo, setDeviceInfo] = useState(null);
 
-  useEffect(() => {
-    fetchInitialData();
-  }, []);
-
-  const fetchInitialData = async () => {
+  const fetchAllDevicesData = useCallback(async () => {
     setLoading(true);
+    setError('');
     try {
-      const result = await sensorDataApi.getAll({ limit: 10 });
+      const result = await sensorDataApi.getAll({ limit });
       setDevices(result.devices || []);
       setSensorData(result.data || []);
       setMeta(result.meta || { total: 0 });
+      setDeviceInfo(null);
     } catch (err) {
       setError('Failed to load sensor data');
     } finally {
       setLoading(false);
     }
-  };
+  }, [limit]);
 
   const fetchDeviceData = useCallback(async () => {
     if (!selectedDevice) {
-      fetchInitialData();
+      fetchAllDevicesData();
       return;
     }
     setLoading(true);
@@ -47,7 +45,7 @@ export default function SensorDataPanel() {
     } finally {
       setLoading(false);
     }
-  }, [selectedDevice, limit]);
+  }, [selectedDevice, limit, fetchAllDevicesData]);
 
   useEffect(() => {
     fetchDeviceData();
