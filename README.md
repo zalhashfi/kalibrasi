@@ -5,17 +5,17 @@ Platform monitoring data sensor IoT berbasis web. Data sensor dapat dilihat seca
 ## 🏗️ Arsitektur
 
 ```
-┌─────────────────┐     HTTP POST      ┌──────────────────┐     MySQL      ┌─────────────┐
-│   IoT Device    │ ──────────────────> │   Backend API    │ ────────────> │   Database   │
-│ (ESP32/Arduino) │    (API Key)        │  (Express.js)    │               │   (Prisma)   │
-└─────────────────┘                     └──────────────────┘               └─────────────┘
+┌─────────────────┐     HTTP POST       ┌──────────────────┐     MySQL       ┌──────────────┐
+│   IoT Device    │ ──────────────────> │   Backend API    │ ─────────────>  │   Database   │
+│ (ESP32/Arduino) │    (API Key)        │  (Express.js)    │                 │   (Prisma)   │
+└─────────────────┘                     └──────────────────┘                 └──────────────┘
                                                │
                                           REST API
                                                │
-                                        ┌──────────────────┐
+                                        ┌───────────────────┐
                                         │    Frontend       │
                                         │   (React + Vite)  │
-                                        └──────────────────┘
+                                        └───────────────────┘
 ```
 
 ## ✨ Fitur
