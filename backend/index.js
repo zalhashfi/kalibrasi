@@ -17,7 +17,14 @@ const router = require('./routes');
 const app = express();
 
 //use cors
-app.use(cors());
+app.use(cors({
+    origin: [
+        'https://kalibrasi-hazel.vercel.app',
+        'http://localhost:5173'
+    ],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 //use body parser
 app.use(bodyParser.urlencoded({ extended: false }));
