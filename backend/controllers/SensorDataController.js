@@ -110,8 +110,8 @@ const getSensorData = async (req, res) => {
         //get total count
         const total = await prisma.sensorData.count({ where: where });
 
-        //strip deviceId from each data item
-        const cleanData = sensorData.map(({ deviceId, ...rest }) => rest);
+        //do not strip deviceId from each data item so the frontend can display the device name
+        const cleanData = sensorData;
 
         //send response
         res.status(200).send({
